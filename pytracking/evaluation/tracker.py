@@ -271,7 +271,8 @@ class Tracker:
         cv.namedWindow(display_name, cv.WINDOW_NORMAL | cv.WINDOW_KEEPRATIO)
         cv.resizeWindow(display_name, 960, 720)
         success, frame = cap.read()
-        cv.imshow(display_name, frame)
+        # modified. since remote server doesn't support visualization.
+        # cv.imshow(display_name, frame)
 
         def _build_init_info(box):
             return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
@@ -324,7 +325,8 @@ class Tracker:
                        font_color, 1)
 
             # Display the resulting frame
-            cv.imshow(display_name, frame_disp)
+            # modified. since remote server doesn't support visualization.
+            # cv.imshow(display_name, frame_disp)
             key = cv.waitKey(1)
             if key == ord('q'):
                 break
@@ -334,8 +336,8 @@ class Tracker:
 
                 cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
                            (0, 0, 0), 1)
-
-                cv.imshow(display_name, frame_disp)
+                # modified. since remote server doesn't support visualization.
+                # cv.imshow(display_name, frame_disp)
                 x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
                 init_state = [x, y, w, h]
                 tracker.initialize(frame, _build_init_info(init_state))
@@ -354,6 +356,8 @@ class Tracker:
             tracked_bb = np.array(output_boxes).astype(int)
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
+            # modified, add annotations
+            print(f'tracking results has been saved in {bbox_file}')
 
     def run_webcam(self, debug=None, visdom_info=None):
         """Run the tracker with the webcam.
