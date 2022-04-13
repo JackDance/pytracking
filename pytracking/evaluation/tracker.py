@@ -428,7 +428,7 @@ class Tracker:
         #         output_boxes.append(init_state)
         #         break
 
-        for img in os.listdir(img_dir):
+        for img in sorted(os.listdir(img_dir)):
             img = cv.imread(img)
             frame_disp = img.copy()
 
