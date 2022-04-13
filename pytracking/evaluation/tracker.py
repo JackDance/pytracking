@@ -396,9 +396,10 @@ class Tracker:
             return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
                     'sequence_object_ids': [1, ]}
 
+        img_dir_name = os.path.basename(img_dir)
 
         for imgg in os.listdir(img_dir):
-            abs_img_path = os.path.join(grand_father_path, imgg)
+            abs_img_path = os.path.join(grand_father_path, img_dir_name, imgg)
             first_img = cv.imread(abs_img_path)
             break
 
