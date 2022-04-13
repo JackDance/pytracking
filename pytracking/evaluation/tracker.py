@@ -400,13 +400,13 @@ class Tracker:
 
         for imgg in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, img_dir_name, imgg)
-            first_img = cv.imread(abs_img_path)
+            # first_img = cv.imread(abs_img_path)
             break
 
         if optional_box is not None:
             assert isinstance(optional_box, (list, tuple))
             assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
-            tracker.initialize(first_img, _build_init_info(optional_box))
+            tracker.initialize(abs_img_path, _build_init_info(optional_box))
             output_boxes.append(optional_box)
 
         for img in sorted(os.listdir(img_dir)):
@@ -798,4 +798,8 @@ class Tracker:
 if __name__ == '__main__':
     img_dir = r'./test_img_video'
     img_dir_name = os.path.basename(img_dir)
-    print(img_dir_name)
+    # print(img_dir_name)
+    imgg = r'00000001.jpg'
+    grand_father_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    abs_img_path = os.path.join(grand_father_path, img_dir_name, imgg)
+    print(abs_img_path)
