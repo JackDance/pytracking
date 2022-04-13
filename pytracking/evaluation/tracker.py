@@ -20,6 +20,8 @@ _tracker_disp_colors = {1: (0, 255, 0), 2: (0, 0, 255), 3: (255, 0, 0),
                         4: (255, 255, 255), 5: (0, 0, 0), 6: (0, 255, 128),
                         7: (123, 123, 123), 8: (255, 128, 0), 9: (128, 0, 255)}
 
+grand_father_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 def trackerlist(name: str, parameter_name: str, run_ids = None, display_name: str = None):
     """Generate list of trackers.
@@ -390,23 +392,14 @@ class Tracker:
 
         output_boxes = []
 
-        # cap = cv.VideoCapture(videofilepath)
-        # display_name = 'Display: ' + tracker.params.tracker_name
-        # cv.namedWindow(display_name, cv.WINDOW_NORMAL | cv.WINDOW_KEEPRATIO)
-        # cv.resizeWindow(display_name, 960, 720)
-        # success, frame = cap.read()
-        # cv.imshow(display_name, frame)
-
         def _build_init_info(box):
             return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
                     'sequence_object_ids': [1, ]}
 
-        # if success is not True:
-        #     print("Read frame from {} failed.".format(videofilepath))
-        #     exit(-1)
 
         for imgg in os.listdir(img_dir):
-            first_img = cv.imread(imgg)
+            abs_img_path = os.path.join(grand_father_path, imgg)
+            first_img = cv.imread(abs_img_path)
             break
 
         if optional_box is not None:
@@ -414,19 +407,6 @@ class Tracker:
             assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
             tracker.initialize(first_img, _build_init_info(optional_box))
             output_boxes.append(optional_box)
-        # else:
-        #     while True:
-        #         # cv.waitKey()
-        #         frame_disp = frame.copy()
-        #
-        #         cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL,
-        #                    1.5, (0, 0, 0), 1)
-        #
-        #         x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
-        #         init_state = [x, y, w, h]
-        #         tracker.initialize(frame, _build_init_info(init_state))
-        #         output_boxes.append(init_state)
-        #         break
 
         for img in sorted(os.listdir(img_dir)):
             img = cv.imread(img)
@@ -439,35 +419,6 @@ class Tracker:
 
             cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
-
-            # font_color = (0, 0, 0)
-            # cv.putText(frame_disp, 'Tracking!', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-            # cv.putText(frame_disp, 'Press r to reset', (20, 55), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-            # cv.putText(frame_disp, 'Press q to quit', (20, 80), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-
-            # Display the resulting frame
-            # cv.imshow(display_name, frame_disp)
-            # key = cv.waitKey(1)
-            # if key == ord('q'):
-            #     break
-            # elif key == ord('r'):
-            #     ret, frame = cap.read()
-            #     frame_disp = frame.copy()
-            #
-            #     cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
-            #                (0, 0, 0), 1)
-            #     cv.imshow(display_name, frame_disp)
-            #     x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
-            #     init_state = [x, y, w, h]
-            #     tracker.initialize(frame, _build_init_info(init_state))
-            #     output_boxes.append(init_state)
-
-        # When everything done, release the capture
-        # cap.release()
-        # cv.destroyAllWindows()
 
         if save_results:
             if not os.path.exists(self.results_dir):
@@ -841,6 +792,3 @@ class Tracker:
     def _read_image(self, image_file: str):
         im = cv.imread(image_file)
         return cv.cvtColor(im, cv.COLOR_BGR2RGB)
-
-
-
