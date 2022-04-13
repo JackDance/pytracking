@@ -23,7 +23,7 @@ def main():
     parser = argparse.ArgumentParser(description='Run the tracker on your webcam.')
     parser.add_argument('tracker_name', type=str, help='Name of tracking method.')
     parser.add_argument('tracker_param', type=str, help='Name of parameter file.')
-    parser.add_argument('img folder', type=str, help='path to a image folder.')
+    parser.add_argument('img_folder', type=str, help='path to a image folder.')
     parser.add_argument('--optional_box', type=float, default=None, nargs="+", help='optional_box with format x y w h.')
     parser.add_argument('--debug', type=int, default=0, help='Debug level.')
     parser.add_argument('--save_results', dest='save_results', action='store_true', help='Save bounding boxes')
@@ -31,7 +31,7 @@ def main():
 
     args = parser.parse_args()
 
-    run_image_folder(args.tracker_name, args.tracker_param,args.videofile, args.optional_box, args.debug, args.save_results)
+    run_image_folder(args.tracker_name, args.tracker_param,args.img_folder, args.optional_box, args.debug, args.save_results)
 
 
 if __name__ == '__main__':
