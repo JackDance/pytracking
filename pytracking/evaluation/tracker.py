@@ -398,7 +398,7 @@ class Tracker:
 
         img_dir_name = os.path.basename(img_dir)
 
-        for imgg in os.listdir(img_dir):
+        for imgg in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, img_dir_name, imgg)
             first_img = cv.imread(abs_img_path)
             break
@@ -410,7 +410,8 @@ class Tracker:
             output_boxes.append(optional_box)
 
         for img in sorted(os.listdir(img_dir)):
-            img = cv.imread(img)
+            abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
+            img = cv.imread(abs_img_path)
             frame_disp = img.copy()
 
             # Draw box
@@ -793,3 +794,8 @@ class Tracker:
     def _read_image(self, image_file: str):
         im = cv.imread(image_file)
         return cv.cvtColor(im, cv.COLOR_BGR2RGB)
+
+if __name__ == '__main__':
+    img_dir = r'./test_img_video'
+    img_dir_name = os.path.basename(img_dir)
+    print(img_dir_name)

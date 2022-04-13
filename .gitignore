@@ -13,3 +13,7 @@ pytracking/tracking_results/
 pytracking/result_plots/
 pytracking/evaluation/local.py
 pytracking/run_local.py
+
+# ignoration
+../.DS_Store
+.DS_Store
