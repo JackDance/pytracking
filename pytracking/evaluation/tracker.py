@@ -501,6 +501,7 @@ class Tracker:
 
         for img in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
+            img_name = img
             img = cv.imread(abs_img_path)
             frame_disp = img.copy()
 
@@ -523,7 +524,7 @@ class Tracker:
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
-            cv.imwrite(os.path.join(base_results_path, f'{img}'), frame_disp)
+            cv.imwrite(os.path.join(base_results_path, img_name), frame_disp)
             # modified, add annotations
             print(f'tracking txt has been saved in {bbox_file}')
             print(f'tracking img has been saved in {base_results_path}')
