@@ -484,6 +484,7 @@ class Tracker:
                     'sequence_object_ids': [1, ]}
 
         img_dir_name = os.path.basename(img_dir)
+        print('img_dir_name: ', img_dir_name)
 
         for imgg in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, '{}/{}'.format(img_dir_name, imgg))
