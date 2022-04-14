@@ -520,8 +520,8 @@ class Tracker:
             # write inferred img
             # print('img_path: ', os.path.join(saved_folder, img_name))
 
-            # cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
-            # print(f'{img_name} has been saved in {saved_folder}')
+            cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
+            print(f'{img_name} has been saved in {saved_folder}')
 
         if save_results:
             tracked_bb = np.array(output_boxes).astype(int)
