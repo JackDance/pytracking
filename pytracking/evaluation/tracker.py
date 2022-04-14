@@ -519,6 +519,8 @@ class Tracker:
             rected_img = cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
             # write inferred img
+            print('img_path: ', os.path.join(base_results_path, img_name))
+
             cv.imwrite(os.path.join(base_results_path, img_name), rected_img)
 
         if save_results:
@@ -534,7 +536,6 @@ class Tracker:
 
             # modified, add annotations
             print(f'tracking txt has been saved in {bbox_file}')
-            print(f'tracking img has been saved in {base_results_path}')
 
 
     def run_webcam(self, debug=None, visdom_info=None):
