@@ -518,6 +518,8 @@ class Tracker:
                 os.makedirs(self.results_dir)
             # video_name = Path(videofilepath).stem
             img_folder_name = os.path.basename(img_dir)
+            if os.path.exists(os.path.join(self.results_dir, img_folder_name)):
+                os.makedirs(os.path.join(self.results_dir, img_folder_name))
             base_results_path = os.path.join(self.results_dir, img_folder_name)
 
             tracked_bb = np.array(output_boxes).astype(int)
