@@ -516,10 +516,10 @@ class Tracker:
             state = [int(s) for s in out['target_bbox'][1]]
             output_boxes.append(state)
 
-            cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
+            rected_img = cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
             # write inferred img
-            cv.imwrite(os.path.join(base_results_path, img_name), frame_disp)
+            cv.imwrite(os.path.join(base_results_path, img_name), rected_img)
 
         if save_results:
             if not os.path.exists(self.results_dir):
