@@ -518,17 +518,17 @@ class Tracker:
             rected_img = cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
             # write inferred img
-            print('img_path: ', os.path.join(saved_folder, img_name))
+            # print('img_path: ', os.path.join(saved_folder, img_name))
 
-            cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
-            print(f'{img_name} has been saved in {saved_folder}')
+            # cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
+            # print(f'{img_name} has been saved in {saved_folder}')
 
         if save_results:
             tracked_bb = np.array(output_boxes).astype(int)
             bbox_file = '{}.txt'.format(saved_folder)
-            np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
+            # np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
             # modify txt format
-            # np.savetxt(bbox_file, tracked_bb, delimiter=',', fmt='%d')
+            np.savetxt(bbox_file, tracked_bb, delimiter=',', fmt='%d')
             # modified, add annotations
             print(f'tracking txt has been saved in {bbox_file}')
 
