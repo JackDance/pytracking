@@ -359,7 +359,7 @@ class Tracker:
             print(f'tracking results has been saved in {bbox_file}')
 
     # modified, add run_video_no_cv function for avoid visualization
-    def run_video_no_cv(self, videofilepath, optional_box=None, debug=None, save_results=False):
+    def run_video_no_visualize(self, videofilepath, optional_box=None, debug=None, save_results=False):
         """Run the tracker with the video file.
         args:
             debug: Debug level.
@@ -412,19 +412,6 @@ class Tracker:
             assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
             tracker.initialize(frame, _build_init_info(optional_box))
             output_boxes.append(optional_box)
-        # else:
-        #     while True:
-        #         # cv.waitKey()
-        #         frame_disp = frame.copy()
-        #
-        #         cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL,
-        #                    1.5, (0, 0, 0), 1)
-        #
-        #         x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
-        #         init_state = [x, y, w, h]
-        #         tracker.initialize(frame, _build_init_info(init_state))
-        #         output_boxes.append(init_state)
-        #         break
 
         while True:
             ret, frame = cap.read()
@@ -442,35 +429,6 @@ class Tracker:
             cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
 
-            # font_color = (0, 0, 0)
-            # cv.putText(frame_disp, 'Tracking!', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-            # cv.putText(frame_disp, 'Press r to reset', (20, 55), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-            # cv.putText(frame_disp, 'Press q to quit', (20, 80), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-            #            font_color, 1)
-
-            # Display the resulting frame
-            # cv.imshow(display_name, frame_disp)
-        #     key = cv.waitKey(1)
-        #     if key == ord('q'):
-        #         break
-        #     elif key == ord('r'):
-        #         ret, frame = cap.read()
-        #         frame_disp = frame.copy()
-        #
-        #         cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
-        #                    (0, 0, 0), 1)
-        #         cv.imshow(display_name, frame_disp)
-        #         x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
-        #         init_state = [x, y, w, h]
-        #         tracker.initialize(frame, _build_init_info(init_state))
-        #         output_boxes.append(init_state)
-        #
-        # # When everything done, release the capture
-        # cap.release()
-        # cv.destroyAllWindows()
-
         if save_results:
             if not os.path.exists(self.results_dir):
                 os.makedirs(self.results_dir)
@@ -480,6 +438,10 @@ class Tracker:
             tracked_bb = np.array(output_boxes).astype(int)
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
+
+            # modify txt format
+            # np.savetxt(bbox_file, tracked_bb, delimiter=',', fmt='%d')
+
             # modified, add annotations
             print(f'tracking results has been saved in {bbox_file}')
 
