@@ -439,9 +439,6 @@ class Tracker:
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
-            # modify txt format
-            # np.savetxt(bbox_file, tracked_bb, delimiter=',', fmt='%d')
-
             # modified, add annotations
             print(f'tracking results has been saved in {bbox_file}')
 
@@ -497,7 +494,7 @@ class Tracker:
             print('abs_path: ',os.path.abspath(abs_img_path))
 
             tracker.initialize(first_img, _build_init_info(optional_box))
-            output_boxes.append(optional_box)
+            # output_boxes.append(optional_box)
 
         img_folder_name = os.path.basename(img_dir)
         if not os.path.exists(self.results_dir):
@@ -530,7 +527,8 @@ class Tracker:
             tracked_bb = np.array(output_boxes).astype(int)
             bbox_file = '{}.txt'.format(saved_folder)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
-
+            # modify txt format
+            # np.savetxt(bbox_file, tracked_bb, delimiter=',', fmt='%d')
             # modified, add annotations
             print(f'tracking txt has been saved in {bbox_file}')
 
