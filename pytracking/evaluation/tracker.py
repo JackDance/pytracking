@@ -499,6 +499,12 @@ class Tracker:
             tracker.initialize(first_img, _build_init_info(optional_box))
             output_boxes.append(optional_box)
 
+        img_folder_name = os.path.basename(img_dir)
+        if not os.path.exists(os.path.join(self.results_dir, img_folder_name)):
+            os.makedirs(os.path.join(self.results_dir, img_folder_name))
+
+        base_results_path = os.path.abspath(img_folder_name)
+
         for img in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
             img_name = img
@@ -512,21 +518,20 @@ class Tracker:
 
             cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
+            # write inferred img
+            cv.imwrite(os.path.join(base_results_path, img_name), frame_disp)
 
         if save_results:
             if not os.path.exists(self.results_dir):
                 os.makedirs(self.results_dir)
             # video_name = Path(videofilepath).stem
-            img_folder_name = os.path.basename(img_dir)
-            if os.path.exists(os.path.join(self.results_dir, img_folder_name)):
-                os.makedirs(os.path.join(self.results_dir, img_folder_name))
-            base_results_path = os.path.join(self.results_dir, img_folder_name)
+
+
 
             tracked_bb = np.array(output_boxes).astype(int)
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
-            cv.imwrite(os.path.join(base_results_path, img_name), frame_disp)
             # modified, add annotations
             print(f'tracking txt has been saved in {bbox_file}')
             print(f'tracking img has been saved in {base_results_path}')
