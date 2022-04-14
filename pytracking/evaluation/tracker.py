@@ -507,8 +507,6 @@ class Tracker:
         if not os.path.exists(saved_folder):
             os.makedirs(saved_folder)
 
-        base_results_path = os.path.abspath(img_folder_name)
-
         for img in sorted(os.listdir(img_dir)):
             abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
             img_name = img
@@ -530,7 +528,7 @@ class Tracker:
 
         if save_results:
             tracked_bb = np.array(output_boxes).astype(int)
-            bbox_file = '{}.txt'.format(base_results_path)
+            bbox_file = '{}.txt'.format(saved_folder)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
             # modified, add annotations
