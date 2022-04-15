@@ -499,7 +499,7 @@ class Tracker:
         if not os.path.exists(self.results_dir):
             os.makedirs(self.results_dir)
         saved_folder = os.path.join(self.results_dir, img_folder_name)
-        video_saved_path = os.path.join(saved_folder, video_name)
+        video_saved_path = os.path.join(self.results_dir, video_name)
 
         fourcc = cv.VideoWriter_fourcc(*'mp4v')
         writer = cv.VideoWriter(video_saved_path, fourcc, fps, (img_w, img_h))
