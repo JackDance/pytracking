@@ -516,6 +516,7 @@ class Tracker:
             os.makedirs(saved_folder)
 
         if save_video:
+            print('the video is saving, please waiting...')
             for img in sorted(os.listdir(img_dir)):
                 abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
                 img_name = img
