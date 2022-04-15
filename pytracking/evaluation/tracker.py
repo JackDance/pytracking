@@ -443,7 +443,7 @@ class Tracker:
             print(f'tracking results has been saved in {bbox_file}')
 
     # modified, add run_img_folder function for avoid visualization.
-    def run_img_folder(self, img_dir, optional_box=None, debug=None, save_results=False):
+    def run_img_folder(self, img_dir, optional_box=None, debug=None, save_results=False, save_video=False):
         """Run the tracker with the img folder.
         args:
             debug: Debug level.
@@ -488,40 +488,53 @@ class Tracker:
             first_img = cv.imread(abs_img_path)
             break
 
-        if optional_box is not None:
-            assert isinstance(optional_box, (list, tuple))
-            assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
-            print('abs_path: ',os.path.abspath(abs_img_path))
-
-            tracker.initialize(first_img, _build_init_info(optional_box))
-            # output_boxes.append(optional_box)
+        video_name = 'output.mp4'
+        # get or set imgg info: img_count, img_h, img_w
+        img_count = len(os.listdir(img_dir))
+        img_h = first_img.shape[0]
+        img_w = first_img.shape[1]
+        fps = 24
 
         img_folder_name = os.path.basename(img_dir)
         if not os.path.exists(self.results_dir):
             os.makedirs(self.results_dir)
         saved_folder = os.path.join(self.results_dir, img_folder_name)
+        video_saved_path = os.path.join(saved_folder, video_name)
+
+        fourcc = cv.VideoWriter_fourcc(*'mp4v')
+        writer = cv.VideoWriter(video_saved_path, fourcc, fps, (img_w, img_h))
+
+        if optional_box is not None:
+            assert isinstance(optional_box, (list, tuple))
+            assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
+
+            tracker.initialize(first_img, _build_init_info(optional_box))
+            # output_boxes.append(optional_box)
+
 
         if not os.path.exists(saved_folder):
             os.makedirs(saved_folder)
 
-        for img in sorted(os.listdir(img_dir)):
-            abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
-            img_name = img
-            img = cv.imread(abs_img_path)
-            frame_disp = img.copy()
+        if save_video:
+            for img in sorted(os.listdir(img_dir)):
+                abs_img_path = os.path.join(grand_father_path, img_dir_name, img)
+                img_name = img
+                img = cv.imread(abs_img_path)
+                frame_disp = img.copy()
 
-            # Draw box
-            out = tracker.track(img)
-            state = [int(s) for s in out['target_bbox'][1]]
-            output_boxes.append(state)
+                # Draw box
+                out = tracker.track(img)
+                state = [int(s) for s in out['target_bbox'][1]]
+                output_boxes.append(state)
 
-            rected_img = cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
-                         (0, 255, 0), 5)
-            # write inferred img
-            # print('img_path: ', os.path.join(saved_folder, img_name))
+                rected_img = cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
+                             (0, 255, 0), 5)
+                # write inferred img
+                # cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
+                # print(f'{img_name} has been saved in {saved_folder}')
 
-            cv.imwrite(os.path.join(saved_folder, img_name), rected_img)
-            print(f'{img_name} has been saved in {saved_folder}')
+                writer.write(rected_img)
+            writer.release()
 
         if save_results:
             tracked_bb = np.array(output_boxes).astype(int)
