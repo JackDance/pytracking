@@ -534,6 +534,7 @@ class Tracker:
                 # print(f'{img_name} has been saved in {saved_folder}')
 
                 writer.write(rected_img)
+            print(f'video has been saved in {video_saved_path}')
             writer.release()
 
         if save_results:
