@@ -903,12 +903,3 @@ class Tracker:
     def _read_image(self, image_file: str):
         im = cv.imread(image_file)
         return cv.cvtColor(im, cv.COLOR_BGR2RGB)
-
-if __name__ == '__main__':
-    img_dir = r'./test_img_video'
-    img_dir_name = os.path.basename(img_dir)
-    # print(img_dir_name)
-    imgg = r'00000001.jpg'
-    grand_father_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    abs_img_path = os.path.join(grand_father_path, img_dir_name, imgg)
-    print(abs_img_path)

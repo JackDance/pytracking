@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 from pytracking.evaluation import Tracker, get_dataset, trackerlist
 
 
-
 def load_text(path, delimiter=' ', dtype=np.float32, backend='numpy'):
     if backend == 'numpy':
         return load_text_numpy(path, delimiter, dtype)
@@ -410,10 +409,12 @@ def plot_results_simple(result_plot_path, tracker_names, plot_types=('success'),
 if __name__ == '__main__':
 
     # plot results
+    # inferred txt file and groundtruth txt file path
     pred_txt_path = r'/Users/jack/Downloads/basketball_results1/txt_results/dimp18.txt'
     gt_txt_path = r'/Users/jack/Downloads/basketball_results1/txt_results/groundtruth.txt'
 
+    # result plot path
     result_plot_path = '/Users/jack/Downloads/result_plot_path'
     tracker_names = 'dimp18'
-
+     # main function, the arg plot_types can be set 'success', 'prec' or 'norm_prec'
     plot_results_simple(result_plot_path, tracker_names, plot_types=('norm_prec'))
